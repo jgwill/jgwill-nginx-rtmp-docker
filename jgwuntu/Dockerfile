@@ -1,4 +1,5 @@
-FROM buildpack-deps:bullseye
+FROM jgwill/ubuntu:22.04
+#FROM buildpack-deps:bullseye
 
 LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
 
@@ -49,14 +50,8 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-RUN apt update && apt install ffmpeg -y
-RUN apt install ffmpeg -y
-
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 
-WORKDIR /work
 EXPOSE 1935
-EXPOSE 8080
-#sudo nginx-rtmp -c /etc/nginx/nginx.conf -p 8080
-CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf", "-p", "8080"]
+CMD ["nginx", "-g", "daemon off;"]
